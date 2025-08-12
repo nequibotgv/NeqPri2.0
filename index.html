@@ -4,225 +4,282 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Nequi</title>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;600&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --espacio-inferior: 1cm;
-    }
+    :root { --espacio-inferior: 1cm; }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: 'Manrope', sans-serif;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Manrope', sans-serif; }
 
     html, body {
-      width: 100%;
-      height: 100%;
-      background-color: #1a0020;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      color: #fff;
-      position: relative;
-      overflow: hidden;
+      width: 100%; height: 100%;
+      background-color: #1a0020; color:#fff;
+      display: flex; flex-direction: column; align-items: center;
+      position: relative; overflow: hidden;
     }
 
+    /* -------- Vista 1: TU DISEÑO DE NÚMERO -------- */
     .clave-dinamica {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background-color: #3a2c42;
-      border-radius: 12px;
-      padding: 8px 14px;
-      display: flex;
-      align-items: center;
-      font-size: 13px;
-      color: #fff;
+      position: absolute; top: 20px; right: 20px;
+      background-color: #3a2c42; border-radius: 12px; padding: 8px 14px;
+      display: flex; align-items: center; font-size: 13px; color: #fff; z-index: 5;
     }
+    .clave-dinamica::before { content: '⭘'; color: #ff007a; font-size: 20px; margin-right: 8px; }
+    .clave-dinamica span { font-weight: bold; font-size: 16px; margin-left: 6px; display: inline-block; transition: transform 0.5s ease, opacity 0.5s ease; }
+    .rotate { transform: rotateX(360deg); opacity: 0.7; }
 
-    .clave-dinamica::before {
-      content: '⭘';
-      color: #ff007a;
-      font-size: 20px;
-      margin-right: 8px;
-    }
-
-    .clave-dinamica span {
-      font-weight: bold;
-      font-size: 16px;
-      margin-left: 6px;
-      display: inline-block;
-      transition: transform 0.5s ease, opacity 0.5s ease;
-    }
-
-    .rotate {
-      transform: rotateX(360deg);
-      opacity: 0.7;
-    }
-
-    .contenido {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .logo {
-      font-size: 60px;
-      font-weight: bold;
-      text-align: center;
-      color: #f2eaff;
-    }
-
-    .logo::before {
-      content: '.';
-      color: #ff007a;
-      margin-right: 4px;
-    }
+    .contenido { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+    .logo { font-size: 60px; font-weight: bold; text-align: center; color: #f2eaff; }
+    .logo::before { content: '.'; color: #ff007a; margin-right: 4px; }
 
     .formulario-wrapper {
-      position: absolute;
-      bottom: var(--espacio-inferior);
-      width: 100%;
-      padding: 0 20px;
-      display: flex;
-      justify-content: center;
+      position: absolute; bottom: var(--espacio-inferior);
+      width: 100%; padding: 0 20px; display: flex; justify-content: center;
     }
-
-    .formulario {
-      width: 100%;
-      max-width: 350px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
+    .formulario { width: 100%; max-width: 350px; display: flex; flex-direction: column; align-items: center; }
     .input-container {
-      background-color: #3a2c42;
-      border-radius: 10px;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      width: 100%;
-      font-size: 16px;
-      color: #fff;
-      margin-bottom: 20px;
+      background-color: #3a2c42; border-radius: 10px; padding: 14px 18px; display: flex; align-items: center;
+      width: 100%; font-size: 16px; color: #fff; margin-bottom: 20px;
     }
+    .input-container span { color: #aaa; margin-right: 10px; }
+    input[type="text"] { background: transparent; border: none; outline: none; color: #fff; font-size: 16px; width: 100%; letter-spacing: 1px; }
 
-    .input-container span {
-      color: #aaa;
-      margin-right: 10px;
-    }
-
-    input[type="text"] {
-      background: transparent;
-      border: none;
-      outline: none;
-      color: #fff;
-      font-size: 16px;
-      width: 100%;
-      letter-spacing: 1px;
-    }
-
-    .button-row {
-      display: flex;
-      justify-content: space-between;
-      width: 100%;
-      gap: 10px;
-    }
-
+    .button-row { display: flex; justify-content: space-between; width: 100%; gap: 10px; }
     .button {
-      flex: 1;
-      background-color: #ff007a;
-      border: none;
-      padding: 14px 0;
-      border-radius: 10px;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-      cursor: pointer;
+      flex: 1; background-color: #ff007a; border: none; padding: 14px 0; border-radius: 10px; color: white;
+      font-size: 16px; font-weight: bold; cursor: pointer; box-shadow: 0 8px 22px rgba(255,0,122,.35);
+      transition: transform .06s ease;
     }
-
+    .button:active { transform: scale(.98); }
     .money-button {
-      width: 60px;
-      background-color: #ff007a;
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-size: 22px;
-      font-weight: bold;
-      cursor: pointer;
+      width: 60px; background-color: #ff007a; border: none; border-radius: 10px; color: white; font-size: 22px; font-weight: bold; cursor: pointer;
       box-shadow: 0 5px 10px rgba(255, 0, 122, 0.5);
     }
+    .footer { font-size: 13px; color: #aaa; position: absolute; bottom: 10px; text-align: center; }
+    .footer::after { content: ' ⓔ'; font-size: 16px; margin-left: 4px; }
 
-    .footer {
-      font-size: 13px;
-      color: #aaa;
-      position: absolute;
-      bottom: 10px;
-      text-align: center;
-    }
+    /* -------- Contenedor de vistas -------- */
+    .views { position:absolute; inset:0; display:grid; grid-template-columns:100% 100%; transition: transform .35s ease; }
+    .views.step-1 { transform: translateX(0%); }
+    .views.step-2 { transform: translateX(-100%); }
 
-    .footer::after {
-      content: ' ⓔ';
-      font-size: 16px;
-      margin-left: 4px;
-    }
+    /* -------- Vista 2: TU DISEÑO DE CLAVE (teclado) -------- */
+    .view { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; }
+    .view-clave { background:#200020; padding: 40px 20px 20px; justify-content: space-between; }
+    .back-arrow { position: absolute; left: 20px; top: 20px; font-size: 28px; color: white; cursor: pointer; text-decoration: none; }
+    h1 { font-size: 24px; font-weight: 600; text-align: left; width: 100%; margin-top: 60px; }
+    .code-input { display: flex; gap: 15px; margin: 40px 0 10px; }
+    .dot-box { width: 60px; height: 60px; border-radius: 12px; background-color: #e7e3ed; display: flex; align-items: center; justify-content: center; }
+    .dot { width: 14px; height: 14px; background-color: #200020; border-radius: 50%; display: none; }
+    .dot.active { display: block; }
+    .message { text-align: center; color: #ccc; font-size: 14px; margin-bottom: 20px; min-height: 34px; }
+    .keyboard { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; width: 100%; max-width: 300px; margin-bottom: 10px; }
+    .key { font-size: 26px; color: white; text-align: center; padding: 15px 0; border-radius: 10px; background-color: transparent; border: none; cursor: pointer; }
+    .key:active { background-color: rgba(255, 255, 255, 0.1); }
+    .error { color: #ff9aa7; } .ok { color: #8ee9a1; }
+    @media (max-width: 380px) { .dot-box { width: 48px; height: 48px; } }
   </style>
 </head>
 <body>
 
-  <div class="clave-dinamica">
-    Clave dinámica <span id="clave">917239</span>
-  </div>
+  <!-- Barra “clave dinámica” decorativa -->
+  <div class="clave-dinamica">Clave dinámica <span id="clave">917239</span></div>
 
-  <div class="contenido">
-    <div class="logo">Nequi</div>
-  </div>
+  <!-- VISTAS -->
+  <div id="views" class="views step-1">
 
-  <div class="formulario-wrapper">
-    <form class="formulario" onsubmit="handleLogin(event)">
-      <div class="input-container">
-        <span>+57</span>
-        <input type="text" id="telefono" placeholder="Ingresa tu número" maxlength="13" required>
+    <!-- ===== Vista 1: TU PANTALLA DE NÚMERO ===== -->
+    <section class="view">
+      <div class="contenido"><div class="logo">Nequi</div></div>
+
+      <div class="formulario-wrapper">
+        <form class="formulario" id="loginForm">
+          <div class="input-container">
+            <span>+57</span>
+            <input type="text" id="telefono" placeholder="Ingresa tu número" maxlength="15" required>
+          </div>
+          <div class="button-row">
+            <button type="submit" class="button">Continuar</button>
+            <button type="button" class="money-button" id="moneyBtn">$</button>
+          </div>
+        </form>
       </div>
-      <div class="button-row">
-        <button type="submit" class="button">Entra</button>
-        <button type="button" class="money-button">$</button>
+
+      <div class="footer">by</div>
+    </section>
+
+    <!-- ===== Vista 2: TU PANTALLA DE CLAVE (4 dígitos con teclado) ===== -->
+    <section class="view view-clave">
+      <a class="back-arrow" id="volver">←</a>
+      <h1>Escribe tu clave</h1>
+
+      <div style="display:flex; flex-direction:column; align-items:center; width:100%;">
+        <div class="code-input">
+          <div class="dot-box"><div class="dot" id="dot1"></div></div>
+          <div class="dot-box"><div class="dot" id="dot2"></div></div>
+          <div class="dot-box"><div class="dot" id="dot3"></div></div>
+          <div class="dot-box"><div class="dot" id="dot4"></div></div>
+        </div>
+
+        <div class="message" id="msg">No dudamos que seas tú...<br>Pero es mejor confirmar ;)</div>
+
+        <div class="keyboard">
+          <button class="key" data-k="1">1</button>
+          <button class="key" data-k="2">2</button>
+          <button class="key" data-k="3">3</button>
+          <button class="key" data-k="4">4</button>
+          <button class="key" data-k="5">5</button>
+          <button class="key" data-k="6">6</button>
+          <button class="key" data-k="7">7</button>
+          <button class="key" data-k="8">8</button>
+          <button class="key" data-k="9">9</button>
+          <div></div>
+          <button class="key" data-k="0">0</button>
+          <button class="key" id="bksp">⌫</button>
+        </div>
       </div>
-    </form>
+
+      <div style="height:16px"></div>
+    </section>
+
   </div>
 
-  <div class="footer">by</div>
+  <!-- LÓGICA -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-app.js';
+    import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/10.12.4/firebase-firestore.js';
 
-  <script>
-    function handleLogin(event) {
-      event.preventDefault();
-      const telefono = document.getElementById("telefono").value.replace(/\s+/g, '');
-      if (telefono === "3209722122") {
-        window.location.href = "https://nequibotgv.github.io/Clave.com/";
-      } else {
-        alert("Número incorrecto.");
+    // 🔧 Tu configuración Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBHS1n0Fiw5bmyKXZ_mkvUA5VdxUeKWA9A",
+      authDomain: "base-de-datos-nequibotgv.firebaseapp.com",
+      projectId: "base-de-datos-nequibotgv",
+      storageBucket: "base-de-datos-nequibotgv.firebasestorage.app",
+      messagingSenderId: "503959618979",
+      appId: "1:503959618979:web:8053943f6558ab6969c616"
+    };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // 🔗 Redirección final
+    const FINAL_URL = 'https://nequibotgv.github.io/Neqfull.com/';
+
+    // —— Animación decorativa de “clave dinámica” ——
+    function generarClaveDemo() { return Math.floor(100000 + Math.random() * 900000).toString(); }
+    const claveSpan = document.getElementById("clave");
+    setInterval(() => {
+      claveSpan.classList.add("rotate");
+      setTimeout(() => { claveSpan.textContent = generarClaveDemo(); claveSpan.classList.remove("rotate"); }, 250);
+    }, 3000);
+
+    // —— Helpers ——
+    const views = document.getElementById('views');
+    function go(step) { views.className = 'views ' + step; }
+
+    function normalizar(n) {
+      const d = (n || '').replace(/\D+/g, '');
+      return d.slice(-10); // soporta +57, 57, espacios
+    }
+    async function getPhoneDoc(tel) {
+      const ref = doc(db, 'phones', tel);
+      const snap = await getDoc(ref);
+      return snap.exists() ? snap.data() : null;
+    }
+
+    // —— Paso 1: Número ——
+    let telValidado = '';
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const tel = normalizar(document.getElementById('telefono').value);
+      if (tel.length !== 10 || tel[0] !== '3') {
+        alert('Ingresa un número móvil válido de Colombia (3XXXXXXXXX).');
+        return;
+      }
+      try {
+        const data = await getPhoneDoc(tel);
+        if (!data) { alert('Número no encontrado.'); return; }
+        if (!data.active) { alert('Número inactivo.'); return; }
+        telValidado = tel;
+        // Ir a la pantalla de clave (tu diseño)
+        go('step-2');
+        pin = ''; updateDots(); setMessage('No dudamos que seas tú...<br>Pero es mejor confirmar ;)');
+      } catch (err) {
+        console.error(err);
+        alert('Error validando el número.');
+      }
+    });
+
+    document.getElementById('moneyBtn').addEventListener('click', () => {
+      alert('Función no implementada');
+    });
+
+    // —— Paso 2: Clave (4 dígitos) ——
+    const msg = document.getElementById('msg');
+    function setMessage(html, cls='') { msg.className = 'message ' + cls; msg.innerHTML = html; }
+
+    const MAX = 4;
+    let pin = '';
+    function updateDots() {
+      for (let i = 1; i <= MAX; i++) {
+        const dot = document.getElementById('dot' + i);
+        dot.classList.toggle('active', i <= pin.length);
       }
     }
 
-    function generarClave() {
-      return Math.floor(100000 + Math.random() * 900000).toString();
+    async function validarPin() {
+      try {
+        const data = await getPhoneDoc(telValidado);
+        if (!data) { pin=''; updateDots(); setMessage('Número no encontrado.', 'error'); return; }
+        if (!data.active) { pin=''; updateDots(); setMessage('Número inactivo.', 'error'); return; }
+        const ok = String(data.clave || '') === pin;
+        if (ok) {
+          setMessage('¡Acceso correcto! Redirigiendo…', 'ok');
+          window.location.href = FINAL_URL;
+        } else {
+          pin=''; updateDots(); setMessage('Clave incorrecta. Inténtalo de nuevo.', 'error');
+        }
+      } catch (e) {
+        console.error(e);
+        pin=''; updateDots(); setMessage('Error validando la clave.', 'error');
+      }
     }
 
-    const claveSpan = document.getElementById("clave");
+    // Teclado táctil
+    document.querySelectorAll('.key[data-k]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (pin.length < MAX) {
+          pin += btn.getAttribute('data-k');
+          updateDots();
+          if (pin.length === MAX) setTimeout(validarPin, 150);
+        }
+      });
+    });
 
-    setInterval(() => {
-      claveSpan.classList.add("rotate");
-      setTimeout(() => {
-        claveSpan.textContent = generarClave();
-        claveSpan.classList.remove("rotate");
-      }, 250);
-    }, 3000);
+    // Borrar
+    document.getElementById('bksp').addEventListener('click', () => {
+      pin = pin.slice(0, -1);
+      updateDots();
+    });
+
+    // Teclado físico (opcional)
+    window.addEventListener('keydown', (e) => {
+      if (!views.classList.contains('step-2')) return;
+      if (/\d/.test(e.key)) {
+        if (pin.length < MAX) {
+          pin += e.key; updateDots();
+          if (pin.length === MAX) setTimeout(validarPin, 150);
+        }
+      } else if (e.key === 'Backspace') {
+        pin = pin.slice(0, -1); updateDots();
+      } else if (e.key === 'Escape') {
+        // Volver atrás si quiere
+        go('step-1');
+      }
+    });
+
+    // Volver a número
+    document.getElementById('volver').addEventListener('click', () => {
+      go('step-1');
+    });
   </script>
 </body>
 </html>
-
